@@ -1,0 +1,66 @@
+name: Create Release
+on: workflow_dispatch
+
+jobs:
+  release:
+    name: Create Release
+    # needs: [test]
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      VERSION: ${{ steps.get_version.outputs.VERSION }}
+    steps:
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        # standard-version needs the full history to do it's thing
+        with:
+          token: ${{ secrets.ADMIN_TOKEN }}
+          fetch-depth: 0
+
+      - name: Cache Node Modules
+        id: node-cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('yarn.lock') }}
+
+      # Need to install dependencies in order to run version-bump
+      - name: Install dependencies
+        run: yarn install --prefer-offline --frozen-lockfile
+        if: steps.node-cache.outputs.cache-hit != 'true'
+
+      - run: git config --global user.name helios-bot
+      - run: git config --global user.email helios.bot@palmetto.com
+      - run: yarn release --no-verify
+
+      - name: Get the version from package.json
+        id: get_version
+        run: |-
+          echo ::set-output name=VERSION::$(cat package.json \
+          | grep version \
+          | head -1 \
+          | awk -F: '{ print $2 }' \
+          | sed 's/[",]//g' \
+          | tr -d '[[:space:]]')
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: v${{ steps.get_version.outputs.VERSION }}
+          release_name: v${{ steps.get_version.outputs.VERSION }}
+          commitish: ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: echo values
+        run: |-
+          echo "VERSION ${{ steps.get_version.outputs.VERSION }}"
+          echo "SHA $GITHUB_SHA"
+          echo "REF $GITHUB_REF"
