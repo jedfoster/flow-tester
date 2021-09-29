@@ -64,6 +64,19 @@ jobs:
           echo "VERSION ${{ steps.get_version.outputs.VERSION }}"
           echo "SHA $GITHUB_SHA"
           echo "REF $GITHUB_REF"
-  # call-workflow-1:
-  #   needs: [release]
-  #   uses: jedfoster/flow-tester/.github/workflows/publish-release.yml@main
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: [release]
+    steps:
+      - uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.ADMIN_TOKEN }}
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: 'jedfoster',
+              repo: 'flow-tester',
+              workflow_id: 'publish-release.yml',
+              ref: '${{ github.ref }}',
+            })
+
