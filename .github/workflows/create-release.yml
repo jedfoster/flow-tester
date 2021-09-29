@@ -64,6 +64,14 @@ jobs:
           echo "VERSION ${{ steps.get_version.outputs.VERSION }}"
           echo "SHA $GITHUB_SHA"
           echo "REF $GITHUB_REF"
-  publish:
-    needs: [release]
-    uses: jedfoster/flow-tester/.github/workflows/publish-release.yml@main
+      - name: Publish
+        run: |-
+          curl \
+            -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "authToken: ${{ secrets.ADMIN_TOKEN }}" \
+            https://api.github.com/repos/jedfoster/flow-tester/actions/workflows/publish-release.yml/dispatches \
+            -d '{"ref":"$GITHUB_REF"}'
+  # publish:
+  #   needs: [release]
+  #   uses: jedfoster/flow-tester/.github/workflows/publish-release.yml@main
