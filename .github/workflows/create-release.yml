@@ -87,5 +87,5 @@ jobs:
               'jedfoster',
               'flow-tester',
               'publish-release',
-              '${{ github.ref }}',
+              '${{ github.ref }}'
             })
