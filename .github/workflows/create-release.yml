@@ -66,4 +66,4 @@ jobs:
           echo "REF $GITHUB_REF"
   call-workflow-1:
     needs: [release]
-    uses: ./.github/workflows/publish-release.yml@main
+    uses: jedfoster/flow-tester/.github/workflows/publish-release.yml@main
