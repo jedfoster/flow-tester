@@ -64,6 +64,6 @@ jobs:
           echo "VERSION ${{ steps.get_version.outputs.VERSION }}"
           echo "SHA $GITHUB_SHA"
           echo "REF $GITHUB_REF"
-  call-workflow-1:
-    needs: [release]
-    uses: jedfoster/flow-tester/.github/workflows/publish-release.yml@main
+  # call-workflow-1:
+  #   needs: [release]
+  #   uses: jedfoster/flow-tester/.github/workflows/publish-release.yml@main
