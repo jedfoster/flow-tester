@@ -86,6 +86,6 @@ jobs:
             github.rest.actions.createWorkflowDispatch({
               owner: 'jedfoster',
               repo: 'flow-tester',
-              workflow_id: 'publish-release',
+              workflow_id: 'publish-release.yml',
               ref: '${{ github.ref }}',
             })
