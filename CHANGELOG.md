@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/jedfoster/flow-tester/compare/v1.0.4...v1.1.0) (2021-09-29)
+
+
+### Features
+
+* some feature ([24c6fbb](https://github.com/jedfoster/flow-tester/commit/24c6fbb59a6791f09294754b6b00efcf384fa336))
+
 ### [1.0.4](https://github.com/jedfoster/flow-tester/compare/v1.0.3...v1.0.4) (2021-09-29)
 
 ### [1.0.3](https://github.com/jedfoster/flow-tester/compare/v1.0.2...v1.0.3) (2021-09-29)
