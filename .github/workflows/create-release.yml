@@ -59,6 +59,7 @@ jobs:
           commitish: ${{ github.ref }}
           draft: false
           prerelease: false
+
       - name: echo values
         run: |-
           echo "VERSION ${{ steps.get_version.outputs.VERSION }}"
@@ -77,6 +78,6 @@ jobs:
               owner: 'jedfoster',
               repo: 'flow-tester',
               workflow_id: 'publish-release.yml',
-              ref: '${{ github.ref }}',
+              ref: 'refs/tags/v${{ steps.get_version.outputs.VERSION }}',
             })
 
