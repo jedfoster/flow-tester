@@ -69,6 +69,8 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     needs: [release]
+    env:
+      VERSION: ${{needs.release.outputs.VERSION}}
     steps:
       - uses: actions/github-script@v5
         with:
@@ -78,6 +80,6 @@ jobs:
               owner: 'jedfoster',
               repo: 'flow-tester',
               workflow_id: 'publish-release.yml',
-              ref: 'refs/tags/v${{ steps.get_version.outputs.VERSION }}',
+              ref: 'refs/tags/v${{ env.VERSION }}',
             })
 
